@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Critique the Map: Four Texases, Not One Desert</title>
+<style>
+    body { margin: 0; padding: 18px; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #F4F6FA; }
+    .widget-wrap { max-width: 820px; margin: 0 auto; }
+    .widget-title { font-size: 20px; color: #0E1C42; margin-bottom: 4px; }
+    .widget-sub { font-size: 15px; color: #555; margin-bottom: 16px; line-height: 1.5; }
+
+    .toggle-row { display: flex; justify-content: center; margin-bottom: 16px; }
+    .toggle-btn { background: #0E1C42; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-size: 15px; cursor: pointer; font-family: inherit; }
+    .toggle-btn:hover { background: #182a5c; }
+
+    .map-frame { position: relative; border: 2px solid #D0D9E8; border-radius: 10px; overflow: hidden; background: #fff; margin-bottom: 18px; }
+    .flat-view { padding: 40px 20px; text-align: center; background: #DDBF8E; transition: opacity 0.3s; }
+    .flat-view-label { font-size: 18px; color: #5a4522; margin-bottom: 6px; }
+    .flat-view-sub { font-size: 14px; color: #6b5735; }
+
+    .regions-view { display: flex; flex-wrap: wrap; }
+    .region-panel { flex: 1; min-width: 180px; padding: 18px 16px; color: #fff; transition: transform 0.2s; }
+    .region-panel:hover { transform: translateY(-3px); }
+    .region-name { font-size: 16px; margin-bottom: 6px; }
+    .region-rain { font-size: 13px; opacity: 0.9; margin-bottom: 8px; }
+    .region-detail { font-size: 13px; line-height: 1.5; opacity: 0.95; }
+
+    .hidden { display: none; }
+
+    .legend-note { font-size: 13px; color: #666; text-align: center; margin-bottom: 20px; }
+
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 8px 16px; font-size: 13px; cursor: pointer; font-family: inherit; margin-top: 10px; }
+    .widget-reset:hover { background: #FDF3E3; }
+</style>
+</head>
+<body>
+<div class="widget-wrap">
+    <div class="widget-title">Critique the Map: Four Texases, Not One Desert</div>
+    <div class="widget-sub">A published map that colors all of Texas the same shade of tan is hiding something real. Reveal the four regions to see what it is hiding.</div>
+
+    <div class="toggle-row">
+        <button class="toggle-btn" id="toggleBtn">Reveal the Four Regions</button>
+    </div>
+
+    <div class="map-frame">
+        <div class="flat-view" id="flatView">
+            <div class="flat-view-label">"Texas: One Big Desert"</div>
+            <div class="flat-view-sub">This is what a flattened, low-detail map shows. It is also wrong.</div>
+        </div>
+        <div class="regions-view hidden" id="regionsView">
+            <div class="region-panel" style="background: #1B6A94;">
+                <div class="region-name">Piney Woods (East Texas)</div>
+                <div class="region-rain">&#128167; ~45+ inches of rain a year</div>
+                <div class="region-detail">Forested, well-watered. Home to the Caddo: settled, agricultural, and confederated.</div>
+            </div>
+            <div class="region-panel" style="background: #2A9D5C;">
+                <div class="region-name">Blackland Prairie (Central Texas)</div>
+                <div class="region-rain">&#128167; ~30&ndash;35 inches of rain a year</div>
+                <div class="region-detail">Fertile grassland, transitional between the wetter east and the drier west.</div>
+            </div>
+            <div class="region-panel" style="background: #C7922C;">
+                <div class="region-name">Hill Country / Edwards Plateau</div>
+                <div class="region-rain">&#128167; ~20&ndash;30 inches of rain a year</div>
+                <div class="region-detail">Rugged escarpment country. A real dividing line, not just a line on a map.</div>
+            </div>
+            <div class="region-panel" style="background: #8A5A3B;">
+                <div class="region-name">Llano Estacado (West Texas)</div>
+                <div class="region-rain">&#128167; ~15&ndash;20 inches of rain a year</div>
+                <div class="region-detail">Flat, dry, few landmarks. Home to the Querecho, Apache bands living here before the horse.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="legend-note">Rainfall figures are approximate long-term averages, used here to show the gradient, not exact historical measurements.</div>
+
+    <div class="optima-widget ow-select" id="matcher">
+        <div class="widget-kicker">&#9889; TRY IT &middot; MATCH THE REGION</div>
+        <div class="widget-question">Match each region to the rainfall level that actually describes it.</div>
+
+        <div class="widget-row" data-correct="2" data-fb="Right. The Piney Woods is the wettest of the four regions, which is exactly why it could support the Caddo's settled, agricultural way of life." data-hint="Think about which region is forested and well-watered, versus which is dry.">
+            <div class="widget-row-prompt">1. Piney Woods (East Texas)</div>
+            <div class="widget-options">
+                <button data-choice="0">Driest of the four</button>
+                <button data-choice="1">Middle of the range</button>
+                <button data-choice="2">Wettest of the four</button>
+            </div>
+        </div>
+
+        <div class="widget-row" data-correct="0" data-fb="Right. The Llano Estacado is the driest of the four regions, with no reliable landmarks or water, which is exactly what made it so dangerous for Coronado's army to cross." data-hint="Think about which region gave Coronado's army the most trouble finding water.">
+            <div class="widget-row-prompt">2. Llano Estacado (West Texas)</div>
+            <div class="widget-options">
+                <button data-choice="0">Driest of the four</button>
+                <button data-choice="1">Middle of the range</button>
+                <button data-choice="2">Wettest of the four</button>
+            </div>
+        </div>
+
+        <div class="widget-row" data-correct="1" data-fb="Right. The Blackland Prairie sits in the middle of the gradient, fertile but not as wet as the Piney Woods." data-hint="This region is fertile grassland, between the wettest and driest extremes.">
+            <div class="widget-row-prompt">3. Blackland Prairie (Central Texas)</div>
+            <div class="widget-options">
+                <button data-choice="1">Middle of the range</button>
+                <button data-choice="0">Driest of the four</button>
+                <button data-choice="2">Wettest of the four</button>
+            </div>
+        </div>
+
+        <div class="widget-row" data-correct="1" data-fb="Right. The Hill Country sits on the drier side of the middle range, a real transition zone at the edge of the escarpment." data-hint="This rugged region marks a real dividing line, not the wettest or driest extreme.">
+            <div class="widget-row-prompt">4. Hill Country / Edwards Plateau</div>
+            <div class="widget-options">
+                <button data-choice="2">Wettest of the four</button>
+                <button data-choice="1">Middle of the range</button>
+                <button data-choice="0">Driest of the four</button>
+            </div>
+        </div>
+
+        <button class="widget-reset">Reset</button>
+    </div>
+</div>
+
+<script>
+(function () {
+  var toggleBtn = document.getElementById('toggleBtn');
+  var flatView = document.getElementById('flatView');
+  var regionsView = document.getElementById('regionsView');
+  var revealed = false;
+  toggleBtn.addEventListener('click', function () {
+    revealed = !revealed;
+    flatView.classList.toggle('hidden', revealed);
+    regionsView.classList.toggle('hidden', !revealed);
+    toggleBtn.textContent = revealed ? 'Show the Flattened Map Again' : 'Reveal the Four Regions';
+  });
+
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (row.dataset.fb || 'Right.') : (row.dataset.hint || 'Not quite. Try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+  });
+})();
+</script>
+</body>
+</html>

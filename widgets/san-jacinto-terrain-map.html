@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Ground That Trapped an Army</title>
+<style>
+    body { margin: 0; padding: 18px; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #F4F6FA; }
+    .widget-wrap { max-width: 800px; margin: 0 auto; }
+    .widget-title { font-size: 20px; color: #0E1C42; margin-bottom: 4px; }
+    .widget-sub { font-size: 15px; color: #555; margin-bottom: 18px; line-height: 1.5; }
+
+    .map { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #cfe8c9; border: 2px solid #0E1C42; border-radius: 10px; overflow: hidden; }
+    .zone { position: absolute; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; color: #0E1C42; padding: 4px; border: 2px solid transparent; transition: border-color 0.15s, filter 0.15s; }
+    .zone:hover { filter: brightness(1.08); }
+    .zone.picked { border-color: #C7922C; }
+
+    .zone-water { background: #8ec6e8; top: 4%; left: 2%; width: 30%; height: 92%; }
+    .zone-marsh { background: #a9c98f; top: 4%; left: 34%; width: 20%; height: 92%; }
+    .zone-timber { background: #6b9c5a; color: #fff; top: 4%; left: 56%; width: 18%; height: 40%; }
+    .zone-texian { background: #2196D0; color: #fff; top: 46%; left: 56%; width: 18%; height: 22%; }
+    .zone-open { background: #e8dfa0; top: 4%; left: 76%; width: 22%; height: 64%; }
+    .zone-mexican { background: #C0392B; color: #fff; top: 70%; left: 76%; width: 22%; height: 26%; }
+    .zone-bridge { background: #C7922C; color: #fff; top: 2%; left: 2%; width: 14%; height: 10%; font-size: 10px; }
+
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-note { font-size: 16px; color: #0E1C42; line-height: 1.6; min-height: 70px; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 8px 16px; font-size: 13px; cursor: pointer; font-family: inherit; margin-top: 10px; }
+    .widget-reset:hover { background: #FDF3E3; }
+</style>
+</head>
+<body>
+<div class="widget-wrap">
+    <div class="widget-title">The Ground That Trapped an Army</div>
+    <div class="widget-sub">This is a simplified layout of the San Jacinto battlefield, April 21, 1836. Click each part of the ground to see why it mattered.</div>
+
+    <div class="map" id="map">
+        <div class="zone zone-water" data-zone="bayou">Buffalo Bayou</div>
+        <div class="zone zone-bridge" data-zone="vince">Vince's Bridge (destroyed)</div>
+        <div class="zone zone-marsh" data-zone="marsh">Marsh</div>
+        <div class="zone zone-timber" data-zone="timber">Timber</div>
+        <div class="zone zone-texian" data-zone="texian">Texian camp</div>
+        <div class="zone zone-open" data-zone="prairie">Open prairie</div>
+        <div class="zone zone-mexican" data-zone="mexican">Mexican camp</div>
+    </div>
+
+    <div class="optima-widget">
+        <div class="widget-kicker">&#9889; CLICK A PART OF THE BATTLEFIELD</div>
+        <div class="widget-note" id="zoneNote">Click any labeled area above to see why Houston chose to fight here.</div>
+        <button class="widget-reset" id="zoneReset">Reset</button>
+    </div>
+</div>
+
+<script>
+(function () {
+  var info = {
+    bayou: "Buffalo Bayou pins the Texian army's back against water. Houston has no retreat either, which is exactly the point: his own army cannot run any more than Santa Anna's can.",
+    vince: "Houston had this bridge destroyed on the only road back to the Brazos. Once it fell, escape by that route became impossible for either side.",
+    marsh: "Soft, wet ground on the flank. Cavalry cannot maneuver through marsh at any real speed, which closes off one of Santa Anna's few options for a mounted counterattack.",
+    timber: "An island of timber let Houston concentrate and hide his forces before the attack, screened from Mexican view until the Texians were already close.",
+    texian: "Houston's roughly 900 men waited here, out of sight, after a six-week retreat that finally brought them to ground Houston, not Santa Anna, had chosen.",
+    prairie: "Open, flat ground between the camps. This is where the afternoon assault crossed, exposed the whole way, in the eighteen minutes that decided the battle.",
+    mexican: "Santa Anna's camp sat here, exhausted after outrunning its own supply line and dividing its forces. The army that owned open ground everywhere else in this war had none of its usual advantage today."
+  };
+  var map = document.getElementById('map');
+  var note = document.getElementById('zoneNote');
+  map.addEventListener('click', function (e) {
+    var z = e.target.closest('.zone');
+    if (!z) return;
+    map.querySelectorAll('.zone').forEach(function (el) { el.classList.remove('picked'); });
+    z.classList.add('picked');
+    note.textContent = info[z.dataset.zone];
+  });
+  document.getElementById('zoneReset').addEventListener('click', function () {
+    map.querySelectorAll('.zone').forEach(function (el) { el.classList.remove('picked'); });
+    note.textContent = 'Click any labeled area above to see why Houston chose to fight here.';
+  });
+})();
+</script>
+</body>
+</html>

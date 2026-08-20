@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Where Would You Found a Mission?</title>
+<style>
+    body { margin: 0; padding: 18px; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #F4F6FA; }
+    .widget-wrap { max-width: 800px; margin: 0 auto; }
+    .widget-title { font-size: 20px; color: #0E1C42; margin-bottom: 4px; }
+    .widget-sub { font-size: 15px; color: #555; margin-bottom: 16px; line-height: 1.5; }
+
+    .cross-section { display: flex; border: 2px solid #D0D9E8; border-radius: 10px; overflow: hidden; margin-bottom: 20px; height: 130px; }
+    .terrain { flex: 1; position: relative; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 10px; cursor: pointer; border-right: 1px solid rgba(255,255,255,0.3); transition: filter 0.15s; }
+    .terrain:hover { filter: brightness(1.08); }
+    .terrain.picked { outline: 3px solid #0E1C42; outline-offset: -3px; }
+    .terrain-label { background: rgba(255,255,255,0.85); color: #0E1C42; font-size: 12px; padding: 4px 8px; border-radius: 4px; text-align: center; }
+    .site-coast { background: linear-gradient(180deg, #8FBFD9 0%, #5A8FA8 100%); }
+    .site-plain { background: linear-gradient(180deg, #E8DDB5 0%, #D8C68E 100%); }
+    .site-spring { background: linear-gradient(180deg, #A8D8B0 0%, #6FAE7E 100%); }
+    .site-inland { background: linear-gradient(180deg, #D9C7A8 0%, #B89968 100%); }
+
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; border-radius: 4px; min-height: 20px; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 8px 16px; font-size: 13px; cursor: pointer; font-family: inherit; margin-top: 10px; }
+    .widget-reset:hover { background: #FDF3E3; }
+</style>
+</head>
+<body>
+<div class="widget-wrap">
+    <div class="widget-title">Where Would You Found a Mission?</div>
+    <div class="widget-sub">It is 1718. Spain needs to occupy this stretch of territory before France does. Click a site on the cross-section below to see what founding a mission there would actually be like.</div>
+
+    <div class="cross-section" id="crossSection">
+        <div class="terrain site-coast" data-site="coast">
+            <div class="terrain-label">Coastal marsh</div>
+        </div>
+        <div class="terrain site-plain" data-site="plain">
+            <div class="terrain-label">Open plain</div>
+        </div>
+        <div class="terrain site-spring" data-site="spring">
+            <div class="terrain-label">Springs at the escarpment</div>
+        </div>
+        <div class="terrain site-inland" data-site="inland">
+            <div class="terrain-label">Deep inland</div>
+        </div>
+    </div>
+
+    <div class="optima-widget">
+        <div class="widget-kicker">&#9889; YOUR SITE</div>
+        <div class="widget-question">Click one of the four sites above.</div>
+        <div class="widget-feedback" id="siteFeedback">Nothing selected yet.</div>
+        <button class="widget-reset" id="siteReset">Reset</button>
+    </div>
+</div>
+
+<script>
+(function () {
+  var feedback = {
+    coast: { good: false, text: "This is close to where Fort St. Louis actually stood. Reliable water, but exposed to storms, disease, and the Karankawa, who destroyed the real settlement here within a few years. A risky choice." },
+    plain: { good: false, text: "No reliable water source here. A mission and presidio need dependable water every single day, not just when it happens to rain. This site fails on the first requirement." },
+    spring: { good: true, text: "This is the real site of San Antonio, founded in 1718. Reliable spring water at the edge of the escarpment, and a defensible position. This is why San Antonio became a three-century town instead of a one-year failure." },
+    inland: { good: false, text: "Too far from the supply and communication lines running back to Mexico. An isolated mission this deep in contested territory would struggle to get resupplied or reinforced." }
+  };
+  var section = document.getElementById('crossSection');
+  var fb = document.getElementById('siteFeedback');
+  section.addEventListener('click', function (e) {
+    var t = e.target.closest('.terrain');
+    if (!t) return;
+    section.querySelectorAll('.terrain').forEach(function (el) { el.classList.remove('picked'); });
+    t.classList.add('picked');
+    var info = feedback[t.dataset.site];
+    fb.textContent = info.text;
+    fb.style.borderLeftColor = info.good ? '#2A9D5C' : '#C0392B';
+  });
+  document.getElementById('siteReset').addEventListener('click', function () {
+    section.querySelectorAll('.terrain').forEach(function (el) { el.classList.remove('picked'); });
+    fb.textContent = 'Nothing selected yet.';
+    fb.style.borderLeftColor = '#C7922C';
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Line Spain Cannot Cross</title>
+<style>
+    body { margin: 0; padding: 18px; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #F4F6FA; }
+    .widget-wrap { max-width: 800px; margin: 0 auto; }
+    .widget-title { font-size: 20px; color: #0E1C42; margin-bottom: 4px; }
+    .widget-sub { font-size: 15px; color: #555; margin-bottom: 18px; line-height: 1.5; }
+
+    .profile { display: flex; align-items: flex-end; gap: 4px; height: 200px; border-bottom: 3px solid #0E1C42; margin-bottom: 8px; padding: 0 4px; }
+    .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; cursor: pointer; height: 100%; }
+    .bar { width: 100%; border-radius: 4px 4px 0 0; transition: filter 0.15s; }
+    .bar-col:hover .bar { filter: brightness(1.1); }
+    .bar-col.picked .bar { outline: 3px solid #C7922C; outline-offset: -3px; }
+    .bar-label { font-size: 11px; color: #0E1C42; text-align: center; margin-top: 6px; line-height: 1.3; }
+
+    .cap-line { position: relative; text-align: center; font-size: 12px; color: #8A1F16; margin-bottom: 18px; }
+
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; border-radius: 4px; min-height: 20px; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 8px 16px; font-size: 13px; cursor: pointer; font-family: inherit; margin-top: 10px; }
+    .widget-reset:hover { background: #FDF3E3; }
+</style>
+</head>
+<body>
+<div class="widget-wrap">
+    <div class="widget-title">The Line Spain Cannot Cross</div>
+    <div class="widget-sub">This profile runs from the Gulf coast (left) up onto the high plains beyond the escarpment (right). Click any bar to see what actually happened there.</div>
+
+    <div class="profile" id="profile">
+        <div class="bar-col" data-zone="coast" style="height: 100%;">
+            <div class="bar" style="height: 22%; background: #2196D0;"></div>
+            <div class="bar-label">Gulf Coast<br />low, wet</div>
+        </div>
+        <div class="bar-col" data-zone="prairie" style="height: 100%;">
+            <div class="bar" style="height: 38%; background: #2A9D5C;"></div>
+            <div class="bar-label">Blackland Prairie</div>
+        </div>
+        <div class="bar-col" data-zone="sanantonio" style="height: 100%;">
+            <div class="bar" style="height: 52%; background: #55C8E8;"></div>
+            <div class="bar-label">San Antonio<br />(the springs)</div>
+        </div>
+        <div class="bar-col" data-zone="cap" style="height: 100%;">
+            <div class="bar" style="height: 78%; background: #C7922C;"></div>
+            <div class="bar-label">Escarpment<br />(the cap)</div>
+        </div>
+        <div class="bar-col" data-zone="sansaba" style="height: 100%;">
+            <div class="bar" style="height: 88%; background: #C0392B;"></div>
+            <div class="bar-label">San Sab&aacute;<br />(beyond the cap)</div>
+        </div>
+        <div class="bar-col" data-zone="plains" style="height: 100%;">
+            <div class="bar" style="height: 96%; background: #8A5A3B;"></div>
+            <div class="bar-label">High Plains<br />arid, Comanche range</div>
+        </div>
+    </div>
+    <div class="cap-line">&#8593; elevation rises, rainfall falls, left to right &#8594;</div>
+
+    <div class="optima-widget">
+        <div class="widget-kicker">&#9889; CLICK A LOCATION</div>
+        <div class="widget-question">What actually happened at each point on this profile?</div>
+        <div class="widget-feedback" id="zoneFeedback">Nothing selected yet.</div>
+        <button class="widget-reset" id="zoneReset">Reset</button>
+    </div>
+</div>
+
+<script>
+(function () {
+  var info = {
+    coast: "Low elevation, high rainfall. Spanish missions here had reliable water, though the coast brought its own risks (recall Fort St. Louis, Week 5).",
+    prairie: "Moderate rainfall, fertile ground. Solidly inside the zone Spain could actually sustain.",
+    sanantonio: "The springs at the escarpment's edge. Reliable water and a defensible position; this is why San Antonio lasted three centuries.",
+    cap: "This is the cap. Beyond this line, rainfall drops sharply and Comanche mounted power controls the ground. Spain's missions could not sustain themselves past this point.",
+    sansaba: "Founded in 1757, past the cap, on ground contested by the Comanche. Destroyed in 1758, the only Texas mission ever taken by force.",
+    plains: "Arid, and the ground a mounted, raiding economy was built for. Spain formally abandoned any claim to hold this ground after Rubí's 1767 inspection."
+  };
+  var profile = document.getElementById('profile');
+  var fb = document.getElementById('zoneFeedback');
+  profile.addEventListener('click', function (e) {
+    var col = e.target.closest('.bar-col');
+    if (!col) return;
+    profile.querySelectorAll('.bar-col').forEach(function (c) { c.classList.remove('picked'); });
+    col.classList.add('picked');
+    fb.textContent = info[col.dataset.zone];
+  });
+  document.getElementById('zoneReset').addEventListener('click', function () {
+    profile.querySelectorAll('.bar-col').forEach(function (c) { c.classList.remove('picked'); });
+    fb.textContent = 'Nothing selected yet.';
+  });
+})();
+</script>
+</body>
+</html>
