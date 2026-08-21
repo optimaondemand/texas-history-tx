@@ -18,6 +18,7 @@
     .flat-view { padding: 40px 20px; text-align: center; background: #DDBF8E; transition: opacity 0.3s; }
     .flat-view-label { font-size: 18px; color: #5a4522; margin-bottom: 6px; }
     .flat-view-sub { font-size: 14px; color: #6b5735; }
+    .flat-view-fact { font-size: 13px; color: #6b5735; margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(90, 69, 34, 0.35); line-height: 1.5; }
 
     .regions-view { display: flex; flex-wrap: wrap; }
     .region-panel { flex: 1; min-width: 180px; padding: 18px 16px; color: #fff; transition: transform 0.2s; }
@@ -50,7 +51,7 @@
 <body>
 <div class="widget-wrap">
     <div class="widget-title">Critique the Map: Four Texases, Not One Desert</div>
-    <div class="widget-sub">A published map that colors all of Texas the same shade of tan is hiding something real. Reveal the four regions to see what it is hiding.</div>
+    <div class="widget-sub">Some real published curricula group Texas with Oklahoma, New Mexico, and Arizona as one "Southwest" region and picture it with a saguaro cactus. Reveal the four regions to see what that picture leaves out.</div>
 
     <div class="toggle-row">
         <button class="toggle-btn" id="toggleBtn">Reveal the Four Regions</button>
@@ -58,8 +59,9 @@
 
     <div class="map-frame">
         <div class="flat-view" id="flatView">
-            <div class="flat-view-label">"Texas: One Big Desert"</div>
-            <div class="flat-view-sub">This is what a flattened, low-detail map shows. It is also wrong.</div>
+            <div class="flat-view-label">"The Southwest": Texas, Oklahoma, New Mexico, Arizona &#127797;</div>
+            <div class="flat-view-sub">This is what some real published curricula show: one region, one desert, one saguaro cactus as the "typical" landscape.</div>
+            <div class="flat-view-fact">There are no saguaros in Texas. That cactus grows only in the Sonoran Desert of Arizona and northern Mexico. And Houston averages about 50 inches of rain a year. Seattle averages about 38.</div>
         </div>
         <div class="regions-view hidden" id="regionsView">
             <div class="region-panel" style="background: #1B6A94;">
