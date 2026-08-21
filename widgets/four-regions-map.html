@@ -20,16 +20,15 @@
     .flat-view-sub { font-size: 14px; color: #6b5735; }
     .flat-view-fact { font-size: 13px; color: #6b5735; margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(90, 69, 34, 0.35); line-height: 1.5; }
 
-    .regions-view { display: flex; flex-wrap: wrap; }
-    .region-panel { flex: 1; min-width: 180px; padding: 18px 16px; color: #fff; transition: transform 0.2s; }
-    .region-panel:hover { transform: translateY(-3px); }
-    .region-name { font-size: 16px; margin-bottom: 6px; }
-    .region-rain { font-size: 13px; opacity: 0.9; margin-bottom: 8px; }
-    .region-detail { font-size: 13px; line-height: 1.5; opacity: 0.95; }
-
+    .regions-view { padding: 10px; }
     .hidden { display: none; }
+    .tx-svg { width: 100%; height: auto; display: block; }
+    .region-label { font-size: 15px; font-weight: 600; fill: #fff; pointer-events: none; }
+    .region-rain { font-size: 11px; fill: rgba(255,255,255,0.9); pointer-events: none; }
 
-    .legend-note { font-size: 13px; color: #666; text-align: center; margin-bottom: 20px; }
+    .legend-note { font-size: 13px; color: #666; text-align: center; margin: 12px 0 20px; }
+    .swatch-row { display: flex; flex-wrap: wrap; gap: 10px 18px; justify-content: center; margin-bottom: 4px; font-size: 13px; color: #333; }
+    .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
 
     .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
     .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
@@ -51,7 +50,7 @@
 <body>
 <div class="widget-wrap">
     <div class="widget-title">Critique the Map: Four Texases, Not One Desert</div>
-    <div class="widget-sub">Some real published curricula group Texas with Oklahoma, New Mexico, and Arizona as one "Southwest" region and picture it with a saguaro cactus. Reveal the four regions to see what that picture leaves out.</div>
+    <div class="widget-sub">Some real published curricula group Texas with Oklahoma, New Mexico, and Arizona as one "Southwest" region and picture it with a saguaro cactus. Reveal the four real regions, on the real shape of the state, to see what that picture leaves out.</div>
 
     <div class="toggle-row">
         <button class="toggle-btn" id="toggleBtn">Reveal the Four Regions</button>
@@ -64,37 +63,62 @@
             <div class="flat-view-fact">There are no saguaros in Texas. That cactus grows only in the Sonoran Desert of Arizona and northern Mexico. And Houston averages about 50 inches of rain a year. Seattle averages about 38.</div>
         </div>
         <div class="regions-view hidden" id="regionsView">
-            <div class="region-panel" style="background: #1B6A94;">
-                <div class="region-name">Piney Woods (East Texas)</div>
-                <div class="region-rain">&#128167; ~45+ inches of rain a year</div>
-                <div class="region-detail">Forested, well-watered. Home to the Caddo: settled, agricultural, and confederated.</div>
-            </div>
-            <div class="region-panel" style="background: #2A9D5C;">
-                <div class="region-name">Blackland Prairie (Central Texas)</div>
-                <div class="region-rain">&#128167; ~30&ndash;35 inches of rain a year</div>
-                <div class="region-detail">Fertile grassland, transitional between the wetter east and the drier west.</div>
-            </div>
-            <div class="region-panel" style="background: #C7922C;">
-                <div class="region-name">Hill Country / Edwards Plateau</div>
-                <div class="region-rain">&#128167; ~20&ndash;30 inches of rain a year</div>
-                <div class="region-detail">Rugged escarpment country. A real dividing line, not just a line on a map.</div>
-            </div>
-            <div class="region-panel" style="background: #8A5A3B;">
-                <div class="region-name">Llano Estacado (West Texas)</div>
-                <div class="region-rain">&#128167; ~15&ndash;20 inches of rain a year</div>
-                <div class="region-detail">Flat, dry, few landmarks. Home to the Querecho, Apache bands living here before the horse.</div>
-            </div>
+            <svg class="tx-svg" viewBox="0 0 700 680" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <clipPath id="txClip">
+                        <path d="M672,194 L542,169 L437,150 L358,138 L358,6 L199,6 L199,282 L16,296 L95,344 L121,418 L184,448 L284,441 L311,445 L384,485 L453,596 L498,657 L495,540 L527,510 L536,490 L606,470 L632,448 L681,422 L682,375 L674,313 L679,252 Z"/>
+                    </clipPath>
+                </defs>
+                <g clip-path="url(#txClip)">
+                    <!-- Mountains and Basins (far west) -->
+                    <rect x="0" y="0" width="140" height="680" fill="#8A5A3B"/>
+                    <!-- Great Plains (Panhandle + Llano Estacado + Edwards Plateau) -->
+                    <rect x="140" y="0" width="200" height="680" fill="#C7922C"/>
+                    <!-- North Central Plains -->
+                    <path d="M340,0 L680,0 L680,300 L440,441 L400,460 L340,0 Z" fill="#2A9D5C"/>
+                    <!-- Coastal Plains (everything east/south of the escarpment) -->
+                    <rect x="0" y="0" width="700" height="680" fill="#1B6A94" fill-opacity="0" />
+                </g>
+                <!-- Coastal Plains as the base, painted first beneath the others so the escarpment line shows the true seam -->
+                <g clip-path="url(#txClip)">
+                    <rect x="0" y="0" width="700" height="680" fill="#1B6A94"/>
+                    <rect x="0" y="0" width="140" height="680" fill="#8A5A3B"/>
+                    <rect x="140" y="0" width="195" height="680" fill="#C7922C"/>
+                    <path d="M335,0 L680,0 L680,300 L505,315 L470,390 L438,441 L400,460 L335,0 Z" fill="#2A9D5C"/>
+                </g>
+                <path d="M672,194 L542,169 L437,150 L358,138 L358,6 L199,6 L199,282 L16,296 L95,344 L121,418 L184,448 L284,441 L311,445 L384,485 L453,596 L498,657 L495,540 L527,510 L536,490 L606,470 L632,448 L681,422 L682,375 L674,313 L679,252 Z"
+                    fill="none" stroke="#0E1C42" stroke-width="3"/>
+                <!-- escarpment seam, the line separating Coastal Plains from the rest -->
+                <polyline points="311,445 438,441 467,413 477,389 508,310 499,236 438,165 400,60" fill="none" stroke="#0E1C42" stroke-width="2" stroke-dasharray="2,4" opacity="0.55"/>
+                <circle cx="438" cy="441" r="5" fill="#fff" stroke="#0E1C42" stroke-width="1.5"/>
+                <text x="446" y="438" class="region-rain" fill="#0E1C42">San Antonio</text>
+                <text x="90" y="395" class="region-label" text-anchor="middle">Mountains</text>
+                <text x="90" y="412" class="region-label" text-anchor="middle">&amp; Basins</text>
+                <text x="90" y="430" class="region-rain" fill="#fff" text-anchor="middle">~10&ndash;15 in/yr</text>
+                <text x="230" y="380" class="region-label" text-anchor="middle">Great Plains</text>
+                <text x="230" y="400" class="region-rain" fill="#fff" text-anchor="middle">~15&ndash;25 in/yr</text>
+                <text x="500" y="150" class="region-label" text-anchor="middle">North Central Plains</text>
+                <text x="500" y="170" class="region-rain" fill="#fff" text-anchor="middle">~25&ndash;33 in/yr</text>
+                <text x="520" y="590" class="region-label" text-anchor="middle">Coastal Plains</text>
+                <text x="520" y="610" class="region-rain" fill="#fff" text-anchor="middle">~33&ndash;56 in/yr</text>
+            </svg>
         </div>
     </div>
 
-    <div class="legend-note">Rainfall figures are approximate long-term averages, used here to show the gradient, not exact historical measurements.</div>
+    <div class="swatch-row">
+        <span><span class="swatch" style="background:#1B6A94;"></span>Coastal Plains</span>
+        <span><span class="swatch" style="background:#2A9D5C;"></span>North Central Plains</span>
+        <span><span class="swatch" style="background:#C7922C;"></span>Great Plains</span>
+        <span><span class="swatch" style="background:#8A5A3B;"></span>Mountains &amp; Basins</span>
+    </div>
+    <div class="legend-note">The dashed line is the Balcones Escarpment &mdash; the same rainfall seam this course keeps returning to. Rainfall figures are approximate long-term averages.</div>
 
     <div class="optima-widget ow-select" id="matcher">
         <div class="widget-kicker">&#9889; TRY IT &middot; MATCH THE REGION</div>
         <div class="widget-question">Match each region to the rainfall level that actually describes it.</div>
 
-        <div class="widget-row" data-correct="2" data-fb="Right. The Piney Woods is the wettest of the four regions, which is exactly why it could support the Caddo's settled, agricultural way of life." data-hint="Think about which region is forested and well-watered, versus which is dry.">
-            <div class="widget-row-prompt">1. Piney Woods (East Texas)</div>
+        <div class="widget-row" data-correct="2" data-fb="Right. The Coastal Plains is the wettest of the four regions, which is exactly why it could support settled, agricultural life, from the Caddo to Austin's cotton colonists." data-hint="Think about which region is forested and well-watered, versus which is dry.">
+            <div class="widget-row-prompt">1. Coastal Plains (East and South Texas)</div>
             <div class="widget-options">
                 <button data-choice="0">Driest of the four</button>
                 <button data-choice="1">Middle of the range</button>
@@ -102,8 +126,8 @@
             </div>
         </div>
 
-        <div class="widget-row" data-correct="0" data-fb="Right. The Llano Estacado is the driest of the four regions, with no reliable landmarks or water, which is exactly what made it so dangerous for Coronado's army to cross." data-hint="Think about which region gave Coronado's army the most trouble finding water.">
-            <div class="widget-row-prompt">2. Llano Estacado (West Texas)</div>
+        <div class="widget-row" data-correct="0" data-fb="Right. The Mountains and Basins region is the driest of the four, and the smallest in population for exactly that reason." data-hint="Think about which region is farthest from the Gulf and highest in elevation.">
+            <div class="widget-row-prompt">2. Mountains and Basins (Far West Texas)</div>
             <div class="widget-options">
                 <button data-choice="0">Driest of the four</button>
                 <button data-choice="1">Middle of the range</button>
@@ -111,8 +135,8 @@
             </div>
         </div>
 
-        <div class="widget-row" data-correct="1" data-fb="Right. The Blackland Prairie sits in the middle of the gradient, fertile but not as wet as the Piney Woods." data-hint="This region is fertile grassland, between the wettest and driest extremes.">
-            <div class="widget-row-prompt">3. Blackland Prairie (Central Texas)</div>
+        <div class="widget-row" data-correct="1" data-fb="Right. The North Central Plains sits in the middle of the gradient, drier than the coast but wetter than the high plains." data-hint="This region is fertile grassland, between the wettest and driest extremes.">
+            <div class="widget-row-prompt">3. North Central Plains</div>
             <div class="widget-options">
                 <button data-choice="1">Middle of the range</button>
                 <button data-choice="0">Driest of the four</button>
@@ -120,8 +144,8 @@
             </div>
         </div>
 
-        <div class="widget-row" data-correct="1" data-fb="Right. The Hill Country sits on the drier side of the middle range, a real transition zone at the edge of the escarpment." data-hint="This rugged region marks a real dividing line, not the wettest or driest extreme.">
-            <div class="widget-row-prompt">4. Hill Country / Edwards Plateau</div>
+        <div class="widget-row" data-correct="1" data-fb="Right. The Great Plains region (the Panhandle, the Llano Estacado, and the Edwards Plateau) sits on the drier side of the middle range &mdash; arid enough to change what grows, wet enough not to be true desert." data-hint="This region includes the Panhandle and the Hill Country &mdash; not the wettest or driest extreme.">
+            <div class="widget-row-prompt">4. Great Plains (Panhandle, Llano Estacado, Hill Country)</div>
             <div class="widget-options">
                 <button data-choice="2">Wettest of the four</button>
                 <button data-choice="1">Middle of the range</button>

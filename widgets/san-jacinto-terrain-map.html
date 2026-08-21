@@ -3,78 +3,90 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>The Ground That Trapped an Army</title>
+<title>The Ground Houston Chose</title>
 <style>
     body { margin: 0; padding: 18px; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #F4F6FA; }
     .widget-wrap { max-width: 800px; margin: 0 auto; }
     .widget-title { font-size: 20px; color: #0E1C42; margin-bottom: 4px; }
     .widget-sub { font-size: 15px; color: #555; margin-bottom: 18px; line-height: 1.5; }
-
-    .map { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #cfe8c9; border: 2px solid #0E1C42; border-radius: 10px; overflow: hidden; }
-    .zone { position: absolute; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; color: #0E1C42; padding: 4px; border: 2px solid transparent; transition: border-color 0.15s, filter 0.15s; }
-    .zone:hover { filter: brightness(1.08); }
-    .zone.picked { border-color: #C7922C; }
-
-    .zone-water { background: #8ec6e8; top: 4%; left: 2%; width: 30%; height: 92%; }
-    .zone-marsh { background: #a9c98f; top: 4%; left: 34%; width: 20%; height: 92%; }
-    .zone-timber { background: #6b9c5a; color: #fff; top: 4%; left: 56%; width: 18%; height: 40%; }
-    .zone-texian { background: #2196D0; color: #fff; top: 46%; left: 56%; width: 18%; height: 22%; }
-    .zone-open { background: #e8dfa0; top: 4%; left: 76%; width: 22%; height: 64%; }
-    .zone-mexican { background: #C0392B; color: #fff; top: 70%; left: 76%; width: 22%; height: 26%; }
-    .zone-bridge { background: #C7922C; color: #fff; top: 2%; left: 2%; width: 14%; height: 10%; font-size: 10px; }
-
-    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .map-frame { border: 2px solid #D0D9E8; border-radius: 10px; overflow: hidden; background: #fff; margin-bottom: 8px; padding: 10px; }
+    .tx-svg { width: 100%; height: auto; display: block; }
+    .stop { cursor: pointer; }
+    .stop:hover circle, .stop.picked circle { r: 9; }
+    .stop circle { stroke: #0E1C42; stroke-width: 2; transition: r 0.15s; }
+    .stop text { font-size: 12px; fill: #0E1C42; pointer-events: none; }
+    .caption { font-size: 13px; color: #666; text-align: center; margin: 8px 0 20px; }
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0 0; }
     .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
-    .widget-note { font-size: 16px; color: #0E1C42; line-height: 1.6; min-height: 70px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; border-radius: 4px; min-height: 20px; }
     .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 8px 16px; font-size: 13px; cursor: pointer; font-family: inherit; margin-top: 10px; }
     .widget-reset:hover { background: #FDF3E3; }
 </style>
 </head>
 <body>
 <div class="widget-wrap">
-    <div class="widget-title">The Ground That Trapped an Army</div>
-    <div class="widget-sub">This is a simplified layout of the San Jacinto battlefield, April 21, 1836. Click each part of the ground to see why it mattered.</div>
+    <div class="widget-title">The Ground Houston Chose</div>
+    <div class="widget-sub">Six weeks of retreat, for eighteen minutes of battle. Click each stop on the retreat route to see why Houston kept moving, and why he finally stopped here.</div>
 
-    <div class="map" id="map">
-        <div class="zone zone-water" data-zone="bayou">Buffalo Bayou</div>
-        <div class="zone zone-bridge" data-zone="vince">Vince's Bridge (destroyed)</div>
-        <div class="zone zone-marsh" data-zone="marsh">Marsh</div>
-        <div class="zone zone-timber" data-zone="timber">Timber</div>
-        <div class="zone zone-texian" data-zone="texian">Texian camp</div>
-        <div class="zone zone-open" data-zone="prairie">Open prairie</div>
-        <div class="zone zone-mexican" data-zone="mexican">Mexican camp</div>
+    <div class="map-frame">
+        <svg class="tx-svg" viewBox="0 0 700 680" xmlns="http://www.w3.org/2000/svg">
+            <path d="M672,194 L542,169 L437,150 L358,138 L358,6 L199,6 L199,282 L16,296 L95,344 L121,418 L184,448 L284,441 L311,445 L384,485 L453,596 L498,657 L495,540 L527,510 L536,490 L606,470 L632,448 L681,422 L682,375 L674,313 L679,252 Z"
+                fill="#EEF1F8" stroke="#0E1C42" stroke-width="2.5"/>
+            <!-- the retreat route: Gonzales - San Felipe - Groce's Landing - San Jacinto -->
+            <polyline points="492,436 527,450 570,415 617,421" fill="none" stroke="#C0392B" stroke-width="2.5" stroke-dasharray="6,4"/>
+
+            <g class="stop" data-stop="gonzales">
+                <circle cx="492" cy="436" r="7" fill="#C7922C"/>
+                <text x="460" y="460">Gonzales</text>
+            </g>
+            <g class="stop" data-stop="sanfelipe">
+                <circle cx="527" cy="450" r="7" fill="#C7922C"/>
+                <text x="490" y="475">San Felipe, Runaway Scrape begins</text>
+            </g>
+            <g class="stop" data-stop="groce">
+                <circle cx="570" cy="415" r="7" fill="#C7922C"/>
+                <text x="500" y="400">Groce's Landing, on the Brazos</text>
+            </g>
+            <g class="stop" data-stop="sanjacinto">
+                <circle cx="617" cy="421" r="9" fill="#C0392B"/>
+                <text x="627" y="417">San Jacinto</text>
+            </g>
+            <g class="stop" data-stop="houston">
+                <circle cx="602" cy="420" r="5" fill="#2196D0"/>
+                <text x="580" y="440">Houston (present-day)</text>
+            </g>
+        </svg>
     </div>
+    <div class="caption">The dashed line is the six-week retreat east. The red pin is where Houston finally chose to stop, fight, and win, in about eighteen minutes.</div>
 
     <div class="optima-widget">
-        <div class="widget-kicker">&#9889; CLICK A PART OF THE BATTLEFIELD</div>
-        <div class="widget-note" id="zoneNote">Click any labeled area above to see why Houston chose to fight here.</div>
-        <button class="widget-reset" id="zoneReset">Reset</button>
+        <div class="widget-kicker">&#9889; CLICK A STOP</div>
+        <div class="widget-question">What happened at each stop on the way to San Jacinto?</div>
+        <div class="widget-feedback" id="stopFeedback">Nothing selected yet.</div>
+        <button class="widget-reset" id="stopReset">Reset</button>
     </div>
 </div>
 
 <script>
 (function () {
   var info = {
-    bayou: "Buffalo Bayou pins the Texian army's back against water. Houston has no retreat either, which is exactly the point: his own army cannot run any more than Santa Anna's can.",
-    vince: "Houston had this bridge destroyed on the only road back to the Brazos. Once it fell, escape by that route became impossible for either side.",
-    marsh: "Soft, wet ground on the flank. Cavalry cannot maneuver through marsh at any real speed, which closes off one of Santa Anna's few options for a mounted counterattack.",
-    timber: "An island of timber let Houston concentrate and hide his forces before the attack, screened from Mexican view until the Texians were already close.",
-    texian: "Houston's roughly 900 men waited here, out of sight, after a six-week retreat that finally brought them to ground Houston, not Santa Anna, had chosen.",
-    prairie: "Open, flat ground between the camps. This is where the afternoon assault crossed, exposed the whole way, in the eighteen minutes that decided the battle.",
-    mexican: "Santa Anna's camp sat here, exhausted after outrunning its own supply line and dividing its forces. The army that owned open ground everywhere else in this war had none of its usual advantage today."
+    gonzales: "Houston's small army gathers here after the Alamo falls, then begins the long retreat east rather than making an immediate stand.",
+    sanfelipe: "The Runaway Scrape: civilians flee east alongside the army, ahead of Santa Anna's advance.",
+    groce: "Houston pauses here on the Brazos to drill his army and let Santa Anna divide his own forces chasing him. This is where the retreat starts to look like strategy rather than flight.",
+    sanjacinto: "Timber and marsh on three sides, Vince's Bridge destroyed on the only road back. Santa Anna has divided his army and outrun his supply line. On April 21, Houston attacks in the afternoon; the fighting lasts about eighteen minutes.",
+    houston: "The battlefield sits at the edge of Buffalo Bayou near the modern city that later took Houston's name, close to Galveston Bay."
   };
-  var map = document.getElementById('map');
-  var note = document.getElementById('zoneNote');
-  map.addEventListener('click', function (e) {
-    var z = e.target.closest('.zone');
-    if (!z) return;
-    map.querySelectorAll('.zone').forEach(function (el) { el.classList.remove('picked'); });
-    z.classList.add('picked');
-    note.textContent = info[z.dataset.zone];
+  document.querySelectorAll('.stop').forEach(function (el) {
+    el.addEventListener('click', function () {
+      document.querySelectorAll('.stop').forEach(function (s) { s.classList.remove('picked'); });
+      el.classList.add('picked');
+      document.getElementById('stopFeedback').textContent = info[el.dataset.stop];
+    });
   });
-  document.getElementById('zoneReset').addEventListener('click', function () {
-    map.querySelectorAll('.zone').forEach(function (el) { el.classList.remove('picked'); });
-    note.textContent = 'Click any labeled area above to see why Houston chose to fight here.';
+  document.getElementById('stopReset').addEventListener('click', function () {
+    document.querySelectorAll('.stop').forEach(function (s) { s.classList.remove('picked'); });
+    document.getElementById('stopFeedback').textContent = 'Nothing selected yet.';
   });
 })();
 </script>

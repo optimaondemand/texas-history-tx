@@ -8,26 +8,22 @@
     body { margin: 0; padding: 18px; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #F4F6FA; }
     .widget-wrap { max-width: 820px; margin: 0 auto; }
     .widget-title { font-size: 20px; color: #0E1C42; margin-bottom: 4px; }
-    .widget-sub { font-size: 15px; color: #555; margin-bottom: 20px; line-height: 1.5; }
-
-    .route { display: flex; align-items: flex-start; position: relative; padding: 22px 4px 6px; }
-    .route::before { content: ""; position: absolute; top: 31px; left: 8%; right: 8%; height: 3px; background: #D0D9E8; }
-    .stop { flex: 1; text-align: center; cursor: pointer; position: relative; z-index: 1; }
-    .stop-dot { width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF; border: 3px solid #0E1C42; margin: 0 auto 8px; transition: all 0.15s; box-sizing: border-box; }
-    .stop.picked .stop-dot { background: #C7922C; border-color: #C7922C; transform: scale(1.15); }
-    .stop:hover .stop-dot { border-color: #55C8E8; }
-    .stop-label { font-size: 12px; color: #0E1C42; line-height: 1.35; padding: 0 2px; }
-    .stop.frontier .stop-dot { border-style: dashed; border-color: #C0392B; }
-    .stop.frontier .stop-label { color: #8A1F16; }
-
-    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 20px 0 0; }
+    .widget-sub { font-size: 15px; color: #555; margin-bottom: 18px; line-height: 1.5; }
+    .map-frame { border: 2px solid #D0D9E8; border-radius: 10px; overflow: hidden; background: #fff; margin-bottom: 8px; padding: 10px; }
+    .tx-svg { width: 100%; height: auto; display: block; }
+    .stop { cursor: pointer; }
+    .stop:hover circle, .stop.picked circle { r: 9; }
+    .stop circle { stroke: #0E1C42; stroke-width: 2; transition: r 0.15s; }
+    .stop.frontier circle { fill: #8A1F16; }
+    .stop text { font-size: 12px; fill: #0E1C42; pointer-events: none; }
+    .caption { font-size: 13px; color: #666; text-align: center; margin: 8px 0 20px; }
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0 0; }
     .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
     .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
     .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; border-radius: 4px; min-height: 20px; }
     .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 8px 16px; font-size: 13px; cursor: pointer; font-family: inherit; margin-top: 10px; }
     .widget-reset:hover { background: #FDF3E3; }
-
-    .verdict { font-size: 14px; color: #6b5735; text-align: center; margin-top: 18px; padding-top: 14px; border-top: 1px dashed #D0D9E8; line-height: 1.55; }
+    .verdict { font-size: 14px; color: #6b5735; text-align: center; margin-top: 14px; padding-top: 12px; border-top: 1px dashed #D0D9E8; line-height: 1.55; }
 </style>
 </head>
 <body>
@@ -35,32 +31,42 @@
     <div class="widget-title">The Line Still Holds</div>
     <div class="widget-sub">The Great Raid of 1840 crossed the whole settled part of Texas and back in a matter of weeks. Click each stop to see what actually happened there, and watch which line the raid crossed easily, and which one nothing crossed for another generation.</div>
 
-    <div class="route" id="route">
-        <div class="stop" data-stop="sanantonio">
-            <div class="stop-dot"></div>
-            <div class="stop-label">San Antonio<br />council house</div>
-        </div>
-        <div class="stop" data-stop="austin">
-            <div class="stop-dot"></div>
-            <div class="stop-label">Austin<br />new capital, 1839</div>
-        </div>
-        <div class="stop frontier" data-stop="frontier">
-            <div class="stop-dot"></div>
-            <div class="stop-label">The escarpment<br />the cap, since Week 7</div>
-        </div>
-        <div class="stop" data-stop="victoria">
-            <div class="stop-dot"></div>
-            <div class="stop-label">Victoria<br />struck, Aug. 1840</div>
-        </div>
-        <div class="stop" data-stop="linnville">
-            <div class="stop-dot"></div>
-            <div class="stop-label">Linnville<br />sacked, on the coast</div>
-        </div>
-        <div class="stop" data-stop="plumcreek">
-            <div class="stop-dot"></div>
-            <div class="stop-label">Plum Creek<br />turned back</div>
-        </div>
+    <div class="map-frame">
+        <svg class="tx-svg" viewBox="0 0 700 680" xmlns="http://www.w3.org/2000/svg">
+            <path d="M672,194 L542,169 L437,150 L358,138 L358,6 L199,6 L199,282 L16,296 L95,344 L121,418 L184,448 L284,441 L311,445 L384,485 L453,596 L498,657 L495,540 L527,510 L536,490 L606,470 L632,448 L681,422 L682,375 L674,313 L679,252 Z"
+                fill="#EEF1F8" stroke="#0E1C42" stroke-width="2.5"/>
+            <!-- the escarpment, same line as Week 7 -->
+            <polyline points="311,445 438,441 467,413 477,389 508,310 499,236" fill="none" stroke="#8A1F16" stroke-width="3" stroke-dasharray="1,5"/>
+            <!-- the Great Raid's route: San Antonio area up to Austin, out to Victoria, Linnville, then Plum Creek on the way back -->
+            <polyline points="438,441 477,389 516,479 536,490 480,413" fill="none" stroke="#C0392B" stroke-width="2.5" stroke-dasharray="6,4"/>
+
+            <g class="stop" data-stop="sanantonio">
+                <circle cx="438" cy="441" r="7" fill="#C7922C"/>
+                <text x="300" y="463">San Antonio, council house</text>
+            </g>
+            <g class="stop" data-stop="austin">
+                <circle cx="477" cy="389" r="7" fill="#C7922C"/>
+                <text x="487" y="378">Austin, new capital 1839</text>
+            </g>
+            <g class="stop frontier" data-stop="frontier">
+                <circle cx="499" cy="345" r="7"/>
+                <text x="509" y="341">the escarpment, cap since Week 7</text>
+            </g>
+            <g class="stop" data-stop="victoria">
+                <circle cx="516" cy="479" r="7" fill="#C0392B"/>
+                <text x="410" y="500">Victoria, struck Aug. 1840</text>
+            </g>
+            <g class="stop" data-stop="linnville">
+                <circle cx="536" cy="490" r="7" fill="#C0392B"/>
+                <text x="546" y="475">Linnville, sacked on the coast</text>
+            </g>
+            <g class="stop" data-stop="plumcreek">
+                <circle cx="480" cy="413" r="7" fill="#2A9D5C"/>
+                <text x="300" y="420">Plum Creek, turned back</text>
+            </g>
+        </svg>
     </div>
+    <div class="caption">The red dashed line is the Great Raid's route. The brown dashed line is the escarpment: the same cap from Week 7.</div>
 
     <div class="optima-widget">
         <div class="widget-kicker">&#9889; CLICK A STOP</div>
@@ -82,18 +88,16 @@
     linnville: "Sacked and burned days later. Comanche riders reached the Gulf coast itself, the farthest a raiding party had struck into settled Texas.",
     plumcreek: "Texas militia and Rangers caught the raiders here on their way back and broke up the war party, at the Battle of Plum Creek."
   };
-  var route = document.getElementById('route');
-  var fb = document.getElementById('stopFeedback');
-  route.addEventListener('click', function (e) {
-    var stop = e.target.closest('.stop');
-    if (!stop) return;
-    route.querySelectorAll('.stop').forEach(function (s) { s.classList.remove('picked'); });
-    stop.classList.add('picked');
-    fb.textContent = info[stop.dataset.stop];
+  document.querySelectorAll('.stop').forEach(function (el) {
+    el.addEventListener('click', function () {
+      document.querySelectorAll('.stop').forEach(function (s) { s.classList.remove('picked'); });
+      el.classList.add('picked');
+      document.getElementById('stopFeedback').textContent = info[el.dataset.stop];
+    });
   });
   document.getElementById('stopReset').addEventListener('click', function () {
-    route.querySelectorAll('.stop').forEach(function (s) { s.classList.remove('picked'); });
-    fb.textContent = 'Nothing selected yet.';
+    document.querySelectorAll('.stop').forEach(function (s) { s.classList.remove('picked'); });
+    document.getElementById('stopFeedback').textContent = 'Nothing selected yet.';
   });
 })();
 </script>

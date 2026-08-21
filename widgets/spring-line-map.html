@@ -8,19 +8,17 @@
     body { margin: 0; padding: 18px; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #F4F6FA; }
     .widget-wrap { max-width: 800px; margin: 0 auto; }
     .widget-title { font-size: 20px; color: #0E1C42; margin-bottom: 4px; }
-    .widget-sub { font-size: 15px; color: #555; margin-bottom: 16px; line-height: 1.5; }
-
-    .cross-section { display: flex; border: 2px solid #D0D9E8; border-radius: 10px; overflow: hidden; margin-bottom: 20px; height: 130px; }
-    .terrain { flex: 1; position: relative; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 10px; cursor: pointer; border-right: 1px solid rgba(255,255,255,0.3); transition: filter 0.15s; }
-    .terrain:hover { filter: brightness(1.08); }
-    .terrain.picked { outline: 3px solid #0E1C42; outline-offset: -3px; }
-    .terrain-label { background: rgba(255,255,255,0.85); color: #0E1C42; font-size: 12px; padding: 4px 8px; border-radius: 4px; text-align: center; }
-    .site-coast { background: linear-gradient(180deg, #8FBFD9 0%, #5A8FA8 100%); }
-    .site-plain { background: linear-gradient(180deg, #E8DDB5 0%, #D8C68E 100%); }
-    .site-spring { background: linear-gradient(180deg, #A8D8B0 0%, #6FAE7E 100%); }
-    .site-inland { background: linear-gradient(180deg, #D9C7A8 0%, #B89968 100%); }
-
-    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-sub { font-size: 15px; color: #555; margin-bottom: 18px; line-height: 1.5; }
+    .map-frame { border: 2px solid #D0D9E8; border-radius: 10px; overflow: hidden; background: #fff; margin-bottom: 12px; padding: 10px; }
+    .tx-svg { width: 100%; height: auto; display: block; }
+    .site { cursor: pointer; }
+    .site circle { stroke: #0E1C42; stroke-width: 2; transition: r 0.15s; }
+    .site:hover circle, .site.picked circle { r: 10; }
+    .site.good circle { fill: #2A9D5C; }
+    .site.bad circle { fill: #C0392B; }
+    .site text { font-size: 12px; fill: #0E1C42; pointer-events: none; }
+    .legend-note { font-size: 13px; color: #666; text-align: center; margin: 10px 0 20px; }
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0 0; }
     .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
     .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
     .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; border-radius: 4px; min-height: 20px; }
@@ -31,26 +29,39 @@
 <body>
 <div class="widget-wrap">
     <div class="widget-title">Where Would You Found a Mission?</div>
-    <div class="widget-sub">It is 1718. Spain needs to occupy this stretch of territory before France does. Click a site on the cross-section below to see what founding a mission there would actually be like.</div>
+    <div class="widget-sub">Spain is deciding where to put its next mission on the Texas frontier. Click each candidate site to see what actually happened there.</div>
 
-    <div class="cross-section" id="crossSection">
-        <div class="terrain site-coast" data-site="coast">
-            <div class="terrain-label">Coastal marsh</div>
-        </div>
-        <div class="terrain site-plain" data-site="plain">
-            <div class="terrain-label">Open plain</div>
-        </div>
-        <div class="terrain site-spring" data-site="spring">
-            <div class="terrain-label">Springs at the escarpment</div>
-        </div>
-        <div class="terrain site-inland" data-site="inland">
-            <div class="terrain-label">Deep inland</div>
-        </div>
+    <div class="map-frame">
+        <svg class="tx-svg" viewBox="0 0 700 680" xmlns="http://www.w3.org/2000/svg">
+            <path d="M672,194 L542,169 L437,150 L358,138 L358,6 L199,6 L199,282 L16,296 L95,344 L121,418 L184,448 L284,441 L311,445 L384,485 L453,596 L498,657 L495,540 L527,510 L536,490 L606,470 L632,448 L681,422 L682,375 L674,313 L679,252 Z"
+                fill="#EEF1F8" stroke="#0E1C42" stroke-width="2.5"/>
+            <!-- the spring line / escarpment, running Del Rio - San Antonio - Austin - Waco - Fort Worth -->
+            <polyline points="311,445 438,441 467,413 477,389 508,310 499,236" fill="none" stroke="#2196D0" stroke-width="3" stroke-dasharray="1,5"/>
+            <text x="470" y="470" font-size="12" fill="#1B6A94">the escarpment &amp; its springs</text>
+
+            <g class="site good" data-site="sanantonio">
+                <circle cx="438" cy="441" r="8" fill="#2A9D5C"/>
+                <text x="448" y="437">San Antonio, 1718</text>
+            </g>
+            <g class="site bad" data-site="matagorda">
+                <circle cx="536" cy="490" r="8" fill="#C0392B"/>
+                <text x="546" y="486">Matagorda Bay (Fort St. Louis)</text>
+            </g>
+            <g class="site good" data-site="nacogdoches">
+                <circle cx="640" cy="307" r="8" fill="#2A9D5C"/>
+                <text x="530" y="300">East Texas missions</text>
+            </g>
+            <g class="site bad" data-site="sansaba">
+                <circle cx="369" cy="349" r="8" fill="#C0392B"/>
+                <text x="230" y="345">San Sab&aacute;, 1757 (beyond the line)</text>
+            </g>
+        </svg>
     </div>
+    <div class="legend-note">Green = a site that lasted. Red = a site that failed. Click each to see why.</div>
 
     <div class="optima-widget">
-        <div class="widget-kicker">&#9889; YOUR SITE</div>
-        <div class="widget-question">Click one of the four sites above.</div>
+        <div class="widget-kicker">&#9889; CLICK A SITE</div>
+        <div class="widget-question">What actually happened at each candidate site?</div>
         <div class="widget-feedback" id="siteFeedback">Nothing selected yet.</div>
         <button class="widget-reset" id="siteReset">Reset</button>
     </div>
@@ -58,27 +69,22 @@
 
 <script>
 (function () {
-  var feedback = {
-    coast: { good: false, text: "This is close to where Fort St. Louis actually stood. Reliable water, but exposed to storms, disease, and the Karankawa, who destroyed the real settlement here within a few years. A risky choice." },
-    plain: { good: false, text: "No reliable water source here. A mission and presidio need dependable water every single day, not just when it happens to rain. This site fails on the first requirement." },
-    spring: { good: true, text: "This is the real site of San Antonio, founded in 1718. Reliable spring water at the edge of the escarpment, and a defensible position. This is why San Antonio became a three-century town instead of a one-year failure." },
-    inland: { good: false, text: "Too far from the supply and communication lines running back to Mexico. An isolated mission this deep in contested territory would struggle to get resupplied or reinforced." }
+  var info = {
+    sanantonio: "Founded in 1718 directly on the springs where the escarpment meets the plain: reliable water and a defensible position. This is why San Antonio lasted three centuries while almost everything else Spain tried in Texas didn't.",
+    matagorda: "La Salle's Fort St. Louis, 1685: an exposed coastline with no reliable fresh water and no natural defense. Disease and mutiny killed it within a few years, and the Karankawa finished what was left in 1689.",
+    nacogdoches: "East Texas missions, founded 1690, abandoned 1693, and not re-founded until 1716. On the wetter, forested side of the line, but far from Spanish supply lines, and never secure until San Antonio existed to support them.",
+    sansaba: "Founded 1757 on the San Sabá River, past the line where Spain's usual model still worked. Destroyed by a Comanche-led coalition in 1758, the only Texas mission ever taken by force."
   };
-  var section = document.getElementById('crossSection');
-  var fb = document.getElementById('siteFeedback');
-  section.addEventListener('click', function (e) {
-    var t = e.target.closest('.terrain');
-    if (!t) return;
-    section.querySelectorAll('.terrain').forEach(function (el) { el.classList.remove('picked'); });
-    t.classList.add('picked');
-    var info = feedback[t.dataset.site];
-    fb.textContent = info.text;
-    fb.style.borderLeftColor = info.good ? '#2A9D5C' : '#C0392B';
+  document.querySelectorAll('.site').forEach(function (el) {
+    el.addEventListener('click', function () {
+      document.querySelectorAll('.site').forEach(function (s) { s.classList.remove('picked'); });
+      el.classList.add('picked');
+      document.getElementById('siteFeedback').textContent = info[el.dataset.site];
+    });
   });
   document.getElementById('siteReset').addEventListener('click', function () {
-    section.querySelectorAll('.terrain').forEach(function (el) { el.classList.remove('picked'); });
-    fb.textContent = 'Nothing selected yet.';
-    fb.style.borderLeftColor = '#C7922C';
+    document.querySelectorAll('.site').forEach(function (s) { s.classList.remove('picked'); });
+    document.getElementById('siteFeedback').textContent = 'Nothing selected yet.';
   });
 })();
 </script>
